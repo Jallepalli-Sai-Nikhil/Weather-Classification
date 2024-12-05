@@ -3,19 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction App</title>
+    <title>Weather Prediction App</title>
 </head>
 <body>
     <h1>Weather Prediction App</h1>
     <form action="/predict" method="post">
-        <label for="feature_1">Feature 1:</label>
+        <!-- Numeric Inputs -->
+        <label for="feature_1">Temperature (°C):</label>
         <input type="text" name="feature_1" required><br>
-        <label for="feature_2">Feature 2:</label>
+
+        <label for="feature_2">Humidity (%):</label>
         <input type="text" name="feature_2" required><br>
-        <label for="feature_3">Feature 3:</label>
+
+        <label for="feature_3">Wind Speed (km/h):</label>
         <input type="text" name="feature_3" required><br>
-        <label for="feature_4">Feature 4:</label>
+
+        <label for="feature_4">Precipitation (%):</label>
         <input type="text" name="feature_4" required><br>
+
+        <label for="feature_5">Cloud Cover:</label>
+        <input type="text" name="feature_5" required><br>
+
+        <label for="feature_6">Atmospheric Pressure (hPa):</label>
+        <input type="text" name="feature_6" required><br>
+
+        <label for="feature_7">UV Index:</label>
+        <input type="text" name="feature_7" required><br>
+
+        <!-- Categorical Inputs -->
+        <label for="feature_8">Season:</label>
+        <select name="feature_8" required>
+            <option value="Winter">Winter</option>
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="Fall">Fall</option>
+        </select><br>
+
+        <label for="feature_9">Visibility (km):</label>
+        <input type="text" name="feature_9" required><br>
+
+        <label for="feature_10">Location:</label>
+        <select name="feature_10" required>
+            <option value="inland">Inland</option>
+            <option value="coastal">Coastal</option>
+            <option value="mountain">Mountain</option>
+        </select><br>
+
+        <label for="feature_11">Weather Type:</label>
+        <select name="feature_11" required>
+            <option value="Rainy">Rainy</option>
+            <option value="Cloudy">Cloudy</option>
+            <option value="Sunny">Sunny</option>
+            <option value="overcast">Overcast</option>
+        </select><br>
+
         <button type="submit">Predict</button>
     </form>
 </body>

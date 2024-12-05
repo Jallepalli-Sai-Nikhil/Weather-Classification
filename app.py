@@ -36,25 +36,36 @@ def identify_categorical_columns(data):
 def index():
     return render_template("index.html")
 
+
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Load dataset to identify categorical columns dynamically
-        df = pd.read_csv(config.DATA_PATH)
-        categorical_columns = identify_categorical_columns(df)
+        # Manually define the expected features
+        expected_features = [
+            'Temperature', 'Humidity', 'Wind Speed', 'Precipitation (%)', 
+            'Cloud Cover', 'Atmospheric Pressure', 'UV Index', 'Season', 
+            'Visibility (km)', 'Location', 'Weather Type'
+        ]
 
-        # Extract features from the form
+        # Extract features from the form (manual mapping to each feature)
         features = []
-        for i in range(1, len(df.columns)):  # Dynamically match the form fields to the dataset columns
-            form_field = request.form.get(f"feature_{i}")
+        
+        # Loop through each feature and get the corresponding form value
+        for i, feature in enumerate(expected_features):
+            form_field = request.form.get(f"feature_{i + 1}")  # Form field starts from 1
             if form_field is not None:
                 # Check if the feature is categorical or numeric
-                if df.columns[i - 1] in categorical_columns:
-                    # If categorical, apply label encoding
-                    features.append(label_encoder.transform([form_field])[0])
+                if feature in ['Season', 'Location', 'Weather Type', 'Cloud Cover']:  # These are categorical features
+                    # Apply label encoding to categorical features
+                    encoded_value = label_encoder.transform([form_field])[0]
+                    features.append(encoded_value)  # Add encoded value
                 else:
-                    # If numeric, convert to float and append
+                    # For numeric features, convert to float and append
                     features.append(float(form_field))
+
+        # Ensure all features have been provided
+        if len(features) != len(expected_features):
+            raise ValueError("Not all required features were provided in the form.")
 
         # Apply preprocessing (scaling) on the numeric features
         processed_features = preprocessor.transform([features])
@@ -68,6 +79,8 @@ def predict():
     except Exception as e:
         logger.error(f"Prediction error: {str(e)}")
         return render_template("error.html", error_message="Prediction failed. Please try again.")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
